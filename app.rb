@@ -23,8 +23,8 @@ get "/js/:name.js" do
   coffee :"coffee/#{params[:name]}"
 end
 
-get '*.html' do 
-  slim params[:splat].first.to_sym
+get ':name.html' do 
+  slim params[:name].to_sym
 end
 
 get '/' do
