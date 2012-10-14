@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-# http://johanharjono.com/archives/760
-# LESS PAINFUL WEB DEVELOPMENT WITH SINATRA, SLIM, SASS, AND COFFEESCRIPT
-# save this snippets as demo.rb
-
 require 'rubygems'
 require "bundler/setup"
 
@@ -16,29 +12,21 @@ configure do
   end
 end
 
-class App < Sinatra::Base
-  set :public_folder, File.dirname(__FILE__) + '/public'
-  set :views, File.dirname(__FILE__) + '/'
+set :public_folder, File.dirname(__FILE__) + '/public'
+set :views, File.dirname(__FILE__) + '/views'
 
-  get '/css/:name.css' do
-    filename = params[:name]
-    sass(:"sass/#{filename}", Compass.sass_engine_options)
-  end
-
-  get "/js/:name.js" do
-    coffee "coffee/#{params[:name].to_sym}"
-  end
-
-  get '*.html' do 
-    slim params[:splat].first.to_sym
-  end
-
-  # Route Handlers
-  get '/' do
-    slim :index
-  end
+get '/css/:name.css' do
+  sass(:"sass/#{params[:name]}", Compass.sass_engine_options)
 end
 
-if __FILE__ == $0
-  App.run! :port => 4000
+get "/js/:name.js" do
+  coffee :"coffee/#{params[:name]}"
+end
+
+get '*.html' do 
+  slim params[:splat].first.to_sym
+end
+
+get '/' do
+  slim :index
 end
